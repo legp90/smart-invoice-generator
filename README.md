@@ -1,75 +1,45 @@
-# React + TypeScript + Vite
+# 📄 Smart Invoice Generator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A production-ready, high-performance **Smart Invoice Generator** built with React, TypeScript, and Tailwind CSS v4. This application allows freelance professionals and small businesses to create, preview, and export clean, corporate-grade A4 PDF invoices in real-time.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Core Features
 
-## React Compiler
+- **Real-Time Computations:** Instant mathematical synchronization of line items, itemized totals, subtotal, custom tax rates, discounts, and final net totals using React `useMemo` for optimized rendering performance.
+- **Dynamic Line Item Management:** Fluid UX allowing users to dynamically add, update, or clear invoice lines. Features smart focus-selection (`onFocus`) to prevent zero-value inputs from disrupting the user typing flow.
+- **Custom Brand Identity:** Local binary image parsing using the native browser `FileReader` API, allowing users to upload and preview corporate logos instantly as Base64 strings.
+- **Client-Side Data Persistence:** Automatic background state serialization into `localStorage` via continuous `useEffect` hooks, preserving user data against accidental tab reloads. Includes a structured hard-reset workflow with confirmation alerts.
+- **Pixel-Perfect PDF Generation:** Instant extraction of the live A4 document layout into a sharp, multi-device compatible PDF file.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack & Architecture
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Frontend Core:** React (Functional Components & Advanced Hooks)
+- **Type Safety:** TypeScript (Strict interfaces, Type-only imports under `verbatimModuleSyntax`)
+- **Styling Engine:** Tailwind CSS v4 (Modern OKLCH utility classes, custom input spin-button abstractions)
+- **Build Tool:** Vite (Ultra-fast Hot Module Replacement)
+- **Document Rendering:** `html-to-image` (SVG serialization) & `jsPDF`
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## ⚡ Technical Challenges & Architectural Wins
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Overcoming the Tailwind v4 OKLCH Color Space Conflict
+**The Problem:** Initial implementation utilized the standard `html2canvas` library to take a DOM snapshot of the invoice component. However, Tailwind CSS v4 natively compiles color schemes using the advanced, high-definition **OKLCH space** (e.g., `oklch(0.2 0.05 250)`). `html2canvas` relies on an outdated custom CSS parsing engine that failed to recognize the `oklch` string tokens, throwing silent exceptions and completely crashing the PDF compilation process.
 
-```
+**The Solution:** Instead of downgrading Tailwind or forcing rigid HEX fallback sheets, I refactored the pipeline to use **`html-to-image`**. This modern package bypasses standard text-string parsing by serializing the target DOM element directly into an native XML/SVG node layout, converting it into a crisp high-density canvas data URL. This architectural pivot fixed the rendering pipeline, slashed processing latency, and enabled razor-sharp font rendering inside the downloaded PDF document.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📦 Local Installation
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+To run this project locally, clone the repository and follow these steps:
 
-```
+```bash
+# 1. Install all project dependencies
+npm install
+
+# 2. Run the local development server
+npm run dev
