@@ -1,5 +1,7 @@
 # 📄 Smart Invoice Generator
 
+🔗 Live Demo / https://smart-invoice-generator-smoky.vercel.app/
+
 A production-ready, high-performance **Smart Invoice Generator** built with React, TypeScript, and Tailwind CSS v4. This application allows freelance professionals and small businesses to create, preview, and export clean, corporate-grade A4 PDF invoices in real-time.
 
 ---
